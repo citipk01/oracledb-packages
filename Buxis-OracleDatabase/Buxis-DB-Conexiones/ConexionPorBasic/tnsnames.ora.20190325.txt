@@ -1,0 +1,47 @@
+HRDES =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 169.167.147.171)(PORT = 2432))
+    (CONNECT_DATA = (SID = PSS3))
+  )
+  
+HRTEST =
+(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=vm-d93b-77ee.nam.nsroot.net)(PORT=2432))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=HRTEST))) 
+ 
+
+
+HRCOB =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = 163.35.7.116)(PORT = 2432))
+    )
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = PSS3)
+    )
+  )
+
+HRPROD =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 169.167.147.231)(PORT = 2432))
+    (CONNECT_DATA = (SID = PSS3))
+  )
+
+HR_PROD =
+  (DESCRIPTION =
+    (ADDRESS_LIST = (ADDRESS =(PROTOCOL = TCP)(HOST = LACARGLXAP021.lac.nsroot.net)(PORT = 2432 )))
+    (CONNECT_DATA = (SID = PSS3)))
+
+
+HR_SIT = 
+                (DESCRIPTION = 
+                               (ADDRESS_LIST = 
+                                               (ADDRESS =(PROTOCOL = TCP)(HOST = vm-d93b-77ee.nam.nsroot.net)(PORT = 2432 ))
+                               ) (CONNECT_DATA = (SID = HRTEST)))
+
+
+HR_SITX =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = LACARGLXAP019)(PORT = 2432))
+    (CONNECT_DATA = (SID = HRTEST))
+  )
+

@@ -1,0 +1,762 @@
+C:\Oracle\Product\11.2.0_32\client_2\network\admin
+#GL DESARROLLO
+GL_DEV =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = ZAGIBXD1.ar.citicorp.com)(PORT = 1523))
+    )
+    (CONNECT_DATA =
+      (SERVICE_NAME = PROD)
+    )
+  )
+  
+GCIB_DWUAT.citicorp.com =
+    (DESCRIPTION =
+    (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 163.35.7.36)(PORT = 1521)))
+    (CONNECT_DATA = (SERVICE_NAME = OFDM)))
+  
+
+#Datawarehouse coorporate DEV
+OFDM_DEV =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = ZAGIBXD1.ar.citicorp.com)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SERVICE_NAME = OFDM)
+    )
+  )
+
+#Datawarehouse Consumer DEV
+OFDMCONS_DEV =
+  (DESCRIPTION=
+   (ADDRESS=
+    (PROTOCOL=TCP)
+    (HOST=zagcgxu1.ar.lac.nsroot.net)
+    (PORT=1523)
+   )
+   (CONNECT_DATA=
+    (SID=OFDMDES)
+   )
+  )
+
+#GL UAT
+UAT_R12_U0 =                                                                         
+  (DESCRIPTION =                                                                    
+    (ADDRESS_LIST =                                                                 
+      (ADDRESS = (PROTOCOL = TCP) (HOST = ZAGIBXU0.AR.CITICORP.COM)(PORT = 1523))
+                               )
+    (CONNECT_DATA =                                                                 
+      (SERVICE_NAME = PROD)                                                                  
+    )                                                                               
+   )                                                                            
+   
+SOJ_DEV =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = ZAGIBXD1.ar.citicorp.com)(PORT = 2432))
+    )
+    (CONNECT_DATA =
+      (SERVICE_NAME = SOJ)
+    )
+  )
+
+GCIB_DWDES.CITICORP.COM = 
+	(DESCRIPTION =
+		(ADDRESS_LIST = 
+			(ADDRESS = (PROTOCOL = TCP)(HOST = zagibxd1.ar.citicorp.com)(PORT = 1521))
+		)
+		(CONNECT_DATA = 
+			(SERVICE_NAME = OFDM)
+		)
+	)
+
+TFSORA.WORLD =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = 163.35.10.15)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SERVICE_NAME = OFDM)
+    )
+  )
+  
+GCIB_DW.citicorp.com =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = 163.35.10.15)(PORT = 1521)))
+    (CONNECT_DATA = (SERVICE_NAME = OFDM)))
+
+OFDM.WORLD =
+   (DESCRIPTION =
+     (ADDRESS_LIST =
+       (ADDRESS = (PROTOCOL = TCP)(HOST = zagibxp0.ar.citicorp.com)(PORT = 1521))
+     )
+     (CONNECT_DATA =
+       (SERVICE_NAME = OFDM)
+     )
+   )
+#UAT DW GCG
+OFDMUAT= 
+  (DESCRIPTION= (ADDRESS= (PROTOCOL=TCP) 
+      (HOST=lacargaxap016.lac.nsroot.net) 
+      (PORT=1521) 
+    ) 
+    (CONNECT_DATA= 
+      (SERVICE_NAME = OFDMUAT) 
+    ) 
+  )
+OFDM_CONSUMER_DES_NEW.WORLD =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST =163.35.10.55)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SERVICE_NAME = ofdmdes)
+    )
+  ) 
+
+OFDM_CONSUMER_DES.WORLD =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST =163.35.10.55)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SERVICE_NAME = ofdmdes)
+    )
+  )
+
+MyApp8.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp27.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp30.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp31.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp32.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp33.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp36.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp37.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp38.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp44.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp45.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp46.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp47.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp48.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+  
+OFDMDES=
+(DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = tcp)(HOST = 163.35.7.41)(PORT = 1523))
+    )
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = OFDMDES)
+    )
+  )
+
+HRTEST = 
+(DESCRIPTION = 
+   (ADDRESS_LIST = 
+	   (ADDRESS =(PROTOCOL = TCP)(HOST = vm-d93b-77ee.nam.nsroot.net)(PORT = 2432))
+   ) (CONNECT_DATA = (SID = HRTEST))
+)
+
+HR_SIT = 
+(DESCRIPTION = 
+   (ADDRESS_LIST = 
+	   (ADDRESS =(PROTOCOL = TCP)(HOST = vm-d93b-77ee.nam.nsroot.net)(PORT = 2432))
+   ) (CONNECT_DATA = (SID = HRTEST))
+)
+
+HR_UAT = 
+(DESCRIPTION = 
+   (ADDRESS_LIST = 
+	   (ADDRESS =(PROTOCOL = TCP)(HOST = LACARGLXAP019)(PORT = 2432 ))
+   ) (CONNECT_DATA = (SID = HRTEST))
+)
+
+
+ 
+GCIB_DW.citicorp.com =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = 163.35.10.15)(PORT = 1521)))
+    (CONNECT_DATA = (SERVICE_NAME = OFDM)))
+
+
+GCIB_DWUAT.citicorp.com =
+    (DESCRIPTION =
+    (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 163.35.7.36)(PORT = 1521)))
+    (CONNECT_DATA = (SERVICE_NAME = OFDM)))
+
+
+GCIB_DWDES.CITICORP.COM = (DESCRIPTION =
+    (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = zagibxd1.ar.citicorp.com)(PORT = 1521)))
+    (CONNECT_DATA = (SERVICE_NAME = OFDM)))
+
+
+
+
+UYDWUAT.CITICORP.COM = (DESCRIPTION =
+    (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = mvdh04.lac.nsroot.net)(PORT = 1521)))
+    (CONNECT_DATA = (SERVICE_NAME = UYDWUAT)))
+
+
+  
+OFDMUAT.WORLD =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = 163.35.10.32)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SERVICE_NAME = ofdmuat)
+    )
+  )   
+
+GCIB_DWDES.CITICORP.COM = (DESCRIPTION =
+    (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = zagibxd1.ar.citicorp.com)(PORT = 1521)))
+    (CONNECT_DATA = (SERVICE_NAME = OFDM)))
+
+
+
+GCIB_DW.citicorp.com =
+   (DESCRIPTION =
+     (ADDRESS_LIST =
+       (ADDRESS = (PROTOCOL = TCP)(HOST = 163.35.10.15)(PORT = 1521))
+     )
+     (CONNECT_DATA =
+       (SERVICE_NAME = OFDM)
+     )
+   )
+
+OFDM.WORLD =
+   (DESCRIPTION =
+     (ADDRESS_LIST =
+       (ADDRESS = (PROTOCOL = TCP)(HOST = zagibxp0.ar.citicorp.com)(PORT = 1521))
+     )
+     (CONNECT_DATA =
+       (SERVICE_NAME = OFDM)
+     )
+   )
+   
+
+OFDM_CONSUMER_DES_NEW.WORLD =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST =163.35.10.55)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SERVICE_NAME = ofdmdes)
+    )
+  ) 
+
+OFDM_CONSUMER_DES.WORLD =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST =163.35.10.55)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SERVICE_NAME = ofdmdes)
+    )
+  )
+
+MyApp8.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp27.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp30.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp31.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp32.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp33.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp36.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp37.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp38.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp44.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp45.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp46.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp47.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+
+
+
+MyApp48.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = BEQ)
+          (PROGRAM = oracle80)
+          (ARGV0 = oracle80ORCL)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = ORCL)
+    )
+  )
+  
+OFDMDES=
+(DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = tcp)(HOST = 163.35.7.41)(PORT = 1523))
+    )
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = OFDMDES)
+    )
+  )
+
+HRTEST = 
+(DESCRIPTION = 
+   (ADDRESS_LIST = 
+	   (ADDRESS =(PROTOCOL = TCP)(HOST = vm-d93b-77ee.nam.nsroot.net)(PORT = 2432 ))
+   ) (CONNECT_DATA = (SID = HRTEST))
+)
+
+HR_UAT = 
+(DESCRIPTION = 
+   (ADDRESS_LIST = 
+	   (ADDRESS =(PROTOCOL = TCP)(HOST = LACARGLXAP019)(PORT = 2432 ))
+   ) (CONNECT_DATA = (SID = HRTEST))
+)
+
+
+ 
+GCIB_DW.citicorp.com =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = 163.35.10.15)(PORT = 1521)))
+    (CONNECT_DATA = (SERVICE_NAME = OFDM)))
+
+
+GCIB_DWUAT.citicorp.com =
+    (DESCRIPTION =
+    (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 163.35.7.36)(PORT = 1521)))
+    (CONNECT_DATA = (SERVICE_NAME = OFDM)))
+
+
+GCIB_DWDES.CITICORP.COM = (DESCRIPTION =
+    (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = zagibxd1.ar.citicorp.com)(PORT = 1521)))
+    (CONNECT_DATA = (SERVICE_NAME = OFDM)))
+
+
+
+
+UYDWUAT.CITICORP.COM = (DESCRIPTION =
+    (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = mvdh04.lac.nsroot.net)(PORT = 1521)))
+    (CONNECT_DATA = (SERVICE_NAME = UYDWUAT)))
+
+ 
+THUBAN_DEV =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = tcp)(HOST = zagcgxu1.ar.lac.nsroot.net)(PORT = 1523))
+    )
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = THUBAN)
+    )
+  )
+
+ARLEASE_DEV =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = tcp)(HOST = zagibxd1.ar.citicorp.com)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = ARLP)
+    )
+  )
