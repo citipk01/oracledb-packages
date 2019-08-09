@@ -1,0 +1,313 @@
+CREATE OR REPLACE PACKAGE         PKG_INT_HRMS_CARGA_F AS
+/******************************************************************************
+ NAME: PKG_INTERFAZ_HRMS_CARGA_F
+ PURPOSE: Carga los datos de la tabla CB_MAEFUNC_STG a MAEFUNC_TBL
+
+ REVISIONS:
+ Ver Date Author Description
+ --------- ---------- --------------- ------------------------------------
+ 1.0 01/06/2015 Carlos Amar 1. Created this package.
+******************************************************************************/
+g_cod_int INTEGER;
+g_proc_int VARCHAR2(30);
+g_err_descr VARCHAR(254);
+g_res_log VARCHAR(254);
+
+type g_mf_list IS TABLE OF MAEFUNC_TBL%ROWTYPE;
+TYPE l_cod_intfc_list IS TABLE OF NUMBER; 
+TYPE l_estado_stg_list  IS TABLE OF VARCHAR2(1);
+TYPE l_cod_error_list IS TABLE OF VARCHAR2(4);
+TYPE l_tipo_tran_list IS TABLE OF VARCHAR2(1);
+
+PROCEDURE Carga_final_Interfaz(Cod_int IN INTEGER,Resultado OUT VARCHAR2);
+ PROCEDURE Carga_CB_MAEFUNC_STG (Cod_int IN INTEGER,l_res OUT VARCHAR2);
+-- EGV 12FEB2016 Inicio
+PROCEDURE Carga_CB_SOEID_STG(Cod_int IN INTEGER,l_res OUT VARCHAR2);
+-- EGV 12FEB2016 Fin 
+END; 
+/
+
+
+CREATE OR REPLACE PACKAGE BODY         PKG_INT_HRMS_CARGA_F AS
+/******************************************************************************
+ NAME: PKG_INTERFAZ_HRMS_CARGA_F
+ PURPOSE: Carga los datos de la tabla CB_MAEFUNC_STG a MAEFUNC_TBL
+
+ REVISIONS:
+ Ver Date Author Description
+ --------- ---------- --------------- ------------------------------------
+ 1.0 01/06/2015 Carlos Amar 1. Created this package.
+******************************************************************************/
+PROCEDURE Carga_final_Interfaz(Cod_int IN INTEGER,Resultado OUT VARCHAR2) AS
+
+    l_estado VARCHAR2(2);
+    l_error BOOLEAN :=FALSE;
+    l_res VARCHAR2(500);
+
+EXC_LOG EXCEPTION;
+
+BEGIN
+
+l_error:=false;
+
+INSERT INTO CB_LOG_CAB (ID_PROC,COD_PROC,DESCRIPCION,FEC_INI)
+VALUES ( Cod_int,'INTERFAZ_HRMS','Proceso Carga Final',SYSDATE);
+COMMIT;
+
+g_proc_int := 'Buscar Cod Int';
+
+BEGIN
+SELECT MIN (I.COD_INTFC) INTO g_cod_int FROM CB_INTFC  I WHERE I.ESTADO_INTFC IN('VO','VE'); 
+
+IF g_cod_int is  NULL THEN
+g_err_descr:='Error Obteniendo el codigo de Interfaz que contiene los datos Validados';
+RAISE EXC_LOG;
+END IF;
+
+UPDATE CB_LOG_CAB SET DESCRIPCION = DESCRIPCION || ' COD_INTFC : ' || g_cod_int 
+WHERE ID_PROC = Cod_int;
+
+COMMIT;
+
+EXCEPTION
+WHEN EXC_LOG THEN
+    Resultado :='Han ocurrido errores en la Carga Final';
+    l_error:=TRUE;
+    BASEARG.PKG_BXSCITI_GENERAL.GRABAR_LOG_DET ( Cod_Int, g_proc_int, 'E', g_err_descr, g_res_log );
+WHEN OTHERS THEN
+    g_err_descr:='Error : ' || SQLERRM;
+    Resultado :='Han ocurrido errores en la Carga Final';
+    l_error:=TRUE;
+    BASEARG.PKG_BXSCITI_GENERAL.GRABAR_LOG_DET ( Cod_Int, g_proc_int, 'E', g_err_descr, g_res_log );
+END;
+
+
+IF l_error = FALSE THEN
+    Carga_CB_MAEFUNC_STG(Cod_int,l_res);
+END IF;
+
+IF l_res <>'OK' THEN l_error:=TRUE; END IF;
+
+BASEARG.PKG_BXSCITI_GENERAL.GRABAR_LOG_DET ( Cod_int, g_proc_int, 'I', 'Resultado : ' || l_res , g_res_log );
+
+-- EGV 12FEB2016 Inicio
+IF l_error = FALSE then
+    Carga_CB_SOEID_STG(Cod_int, l_res);
+    IF l_res <>'OK' THEN l_error:=TRUE; END IF; 
+END IF;
+-- EGV 12FEB2016 Fin
+
+
+IF l_error =TRUE THEN
+    l_estado := 'FE';
+    Resultado :='Han ocurrido errores en la Carga Final';
+ELSE
+    l_estado := 'FO';
+    Resultado :='Carga Final OK';
+END IF;
+
+UPDATE CB_INTFC I SET I.ESTADO_INTFC =  l_estado, I.FEC_FIN = SYSDATE,OBSERVACIONES=Resultado WHERE I.COD_INTFC= g_cod_int;
+
+UPDATE CB_LOG_CAB L SET L.ESTADO =  l_estado, L.FEC_FIN = SYSDATE WHERE L.ID_PROC= Cod_Int;
+
+
+COMMIT;
+EXCEPTION
+WHEN EXC_LOG THEN
+
+BASEARG.PKG_BXSCITI_GENERAL.GRABAR_LOG_DET ( Cod_Int, g_proc_int, 'E', g_err_descr, g_res_log );
+
+END;
+
+
+-- EGV 12FEB2016 Inicio
+PROCEDURE Carga_CB_SOEID_STG (Cod_int IN INTEGER,l_res OUT VARCHAR2) AS
+    l_cant_errores      integer;
+BEGIN
+   
+    l_cant_errores := 0;
+
+    BEGIN
+    
+    BASEARG.PKG_BXSCITI_GENERAL.GRABAR_LOG_DET ( Cod_int, 'SOEID', 'I', 'Carga de SOEID ' || g_cod_int , g_res_log );
+
+    FOR SOE in (SELECT COD_MF, SOEID, TIPO_TRAN FROM CB_SOEID_STG WHERE COD_INTFC = g_cod_int AND ESTADO_STG = 'P')
+    LOOP
+    
+        BEGIN
+        
+            IF SOE.TIPO_TRAN = 'I' THEN
+                INSERT INTO CB_SOEID(COD_MF, SOEID, LAST_USR, LAST_HOST) VALUES (SOE.COD_MF, SOE.SOEID, USER, sys_context('userenv','ip_address'));
+            ELSE
+                UPDATE CB_SOEID
+                SET SOEID = SOE.SOEID,
+                LAST_USR = USER,
+                LAST_HOST = sys_context('userenv','ip_address') 
+                WHERE COD_MF = SOE.COD_MF;
+            END IF;
+            
+            UPDATE CB_SOEID_STG
+            SET ESTADO_STG = 'F'
+            WHERE COD_INTFC = g_cod_int
+            AND COD_MF = SOE.COD_MF;
+
+            COMMIT;            
+        
+        EXCEPTION
+            WHEN OTHERS THEN
+                l_cant_errores := l_cant_errores + 1;
+                BASEARG.PKG_BXSCITI_GENERAL.GRABAR_LOG_DET ( Cod_int, 'SOEID', 'E', 'Legajo: ' || SOE.COD_MF || ' ' || substr(sqlerrm,1,200) , g_res_log );            
+        END;
+    
+    END LOOP;
+    
+    EXCEPTION
+        WHEN OTHERS THEN
+            l_cant_errores := l_cant_errores + 1;
+            BASEARG.PKG_BXSCITI_GENERAL.GRABAR_LOG_DET ( Cod_int, 'SOEID', 'E', 'Select principal: ' || substr(sqlerrm,1,200) , g_res_log );
+    END;    
+    
+    COMMIT;
+    
+    IF l_cant_errores = 0 THEN
+        l_res := 'OK';
+    ELSE
+        l_res := 'Ocurrieron ' || l_cant_errores || ' errores.';
+    END IF;
+
+END;
+-- EGV 12FEB2016 Fin
+
+PROCEDURE Carga_CB_MAEFUNC_STG (Cod_int IN INTEGER,l_res OUT VARCHAR2) AS
+
+l_cod_intfc l_cod_intfc_list;
+t_mf g_mf_list ;
+l_estado_stg l_estado_stg_list;
+l_cod_error l_cod_error_list;
+l_tipo_tran l_tipo_tran_list;
+
+l_t_tran_ant VARCHAR2(1):=' ';
+l_contador INTEGER :=0;
+l_hay_error BOOLEAN :=FALSE;
+
+LOG_EXC EXCEPTION;
+
+BEGIN
+g_proc_int := 'Carga_CB_MAEFUNC_STG';
+
+
+SELECT S.COD_INTFC, S.ESTADO_STG,S.COD_ERROR,S.TIPO_TRAN 
+BULK COLLECT INTO
+  l_cod_intfc,
+  l_estado_stg,
+  l_cod_error,
+  l_tipo_tran 
+FROM CB_MAEFUNC_STG S
+WHERE S.COD_INTFC = g_cod_int
+AND S.ESTADO_STG='P'
+ORDER BY S.TIPO_TRAN,S.COD_MF,S.FECHA_EFECTIVA,S.SEC_EFECTIVA;
+
+-- EGV 03Jul2015 Inicio
+--SELECT SEG_APE_MF,    CBHR_MODULO_PYO,    REACTIVADO,    CAT_CONT,    CODPOS,    CONTRATO,    CUOTA_CLUB,    FEC_EGR_MF,    CR_NOCTURNO_PM,    LUGAR_TJO,    FEC_DESV_MF,    PREPAGA,    CB_HRMS_EFFSEQ,    SEC_EFECTIVA,    RESPONS,    PRI_NOM_MF,    SEG_NOM_MF,    PLANPRPAGA,    CR_FOA,    CBHR_DIAS_ACORD,    ACCION_RAZON,    SJH_MF,    PAIS_MF,    OSOCIAL_CITI,    CR_TAQUIGRAFA_BI,    CAT_CONVE,    COD_MF,    FECNAC_MF,    TERCIARIO,    LOCALIDAD,    TICKETCAN,    CENCOS_MF,    CB_EMPL_RCD,    UNIVERSITARIO,    CR_MAY_B,    CR_HS_EXTRAS,    IDENTFP_MF,    FEC_ING_MF,    COD_CATE,    SECC_MF,    CBHR_CATCJPPU_IRPF,    FEC_HIRE,    CBHR_UPGR_ENTRY_DT,    CR_PORTAVALORES,    FEC_ANTIG,    BANKING,    CR_COMP_5,    CB_BX_CHANGE,    COD_EMP,    CR_ACCT_FALT,    SECUNDARIO,    NRO_CB_MF,    FEC_INDEM_MF,    MODCON,    CB_GEID,    SINDICATO,    CR_NOCTURNO_PH,    TIPOREM_MF,    FPAGO_MF,    STD_HOURS,    CR_COMP_6,    PROVINCIA,    CB_TURNO,    DOMIC_MF,    CR_PRESENTISMO,    NIVEL,    CR_FALLA_CONVENI,    BAJA_EFECTIVA,    PRI_APE_MF,    CBHR_UPGR_PPAGA,    ACCION_DT,    CEDIDE_MF,    SEXO_MF,    CR_ACCT_RESV,    FECHA_EFECTIVA,    CR_MAY_A,    CB_HRMS_EFFDT,    CR_SOC_SECURITY,    CBHR_MPYO_ENTRY_DT,    VTOCONT,    AJUSTE_EGR,    CR_COMPUTADORA,    CB_DEPT,    CUIL,    GRADO,    ACCION,    BUSINESS_TITLE,    EST_CIV_MF,    CB_AREA,    CR_COMP_4,    TIPO_DOC,    FEC_ING_VL,    NACIONALIDAD,    FEC_REHIRE,    CR_ROTATIVO,    CBHR_ALICUOTA,    CBHR_PLANUGRDPPAGA,    CITICLUB,    CR_TR_NO,    CIA_SEGURO
+SELECT SEG_APE_MF,    CBHR_MODULO_PYO,    REACTIVADO,    CAT_CONT,    CODPOS,    CONTRATO,    CUOTA_CLUB,    FEC_EGR_MF,    CR_NOCTURNO_PM,    LUGAR_TJO,    FEC_DESV_MF,    PREPAGA,    CB_HRMS_EFFSEQ,    SEC_EFECTIVA,    RESPONS,    PRI_NOM_MF,    SEG_NOM_MF,    PLANPRPAGA,    CR_FOA,    CBHR_DIAS_ACORD,    ACCION_RAZON,    SJH_MF,    PAIS_MF,    OSOCIAL_CITI,    CR_TAQUIGRAFA_BI,    CAT_CONVE,    COD_MF,    FECNAC_MF,    TERCIARIO,    LOCALIDAD,    TICKETCAN,    CENCOS_MF,    CB_EMPL_RCD,    UNIVERSITARIO,    CR_MAY_B,    CR_HS_EXTRAS,    IDENTFP_MF,    FEC_ING_MF,    COD_CATE,    SECC_MF,    CBHR_CATCJPPU_IRPF,    FEC_HIRE,    CBHR_UPGR_ENTRY_DT,    CR_PORTAVALORES,    FEC_ANTIG,    BANKING,    CR_COMP_5,    CB_BX_CHANGE,    COD_EMP,    CR_ACCT_FALT,    SECUNDARIO,    NRO_CB_MF,    FEC_INDEM_MF,    MODCON,    CB_GEID,    SINDICATO,    CR_NOCTURNO_PH,    TIPOREM_MF,    FPAGO_MF,    STD_HOURS,    CR_COMP_6,    PROVINCIA,    CB_TURNO,    DOMIC_MF,    CR_PRESENTISMO,    NIVEL,    CR_FALLA_CONVENI,    BAJA_EFECTIVA,    PRI_APE_MF,    CBHR_UPGR_PPAGA,    ACCION_DT,    CEDIDE_MF,    SEXO_MF,    CR_ACCT_RESV,    FECHA_EFECTIVA,    CR_MAY_A,    CB_HRMS_EFFDT,    CR_SOC_SECURITY,    CBHR_MPYO_ENTRY_DT,    VTOCONT,    AJUSTE_EGR,    CR_COMPUTADORA,    CB_DEPT,    CUIL,    GRADO,    ACCION,    BUSINESS_TITLE,    EST_CIV_MF,    CB_AREA,    CR_COMP_4,    TIPO_DOC,    FEC_ING_VL,    NACIONALIDAD,    FEC_REHIRE,    CR_ROTATIVO,    CBHR_ALICUOTA,    CBHR_PLANUGRDPPAGA,    CITICLUB,    CR_TR_NO,    CIA_SEGURO, AUDIT_TOKEN, AUDIT_USERNAME, CR_CALL_CENTER, CR_PROMOTOR, CR_PLURIEMPLEO 
+-- EGV 03Jul2015 Fin
+BULK COLLECT
+INTO t_mf
+FROM CB_MAEFUNC_STG S
+WHERE S.COD_INTFC = g_cod_int
+AND S.ESTADO_STG = 'P'
+ORDER BY S.TIPO_TRAN,
+ S.COD_MF,
+ S.FECHA_EFECTIVA,
+ S.SEC_EFECTIVA;
+
+BASEARG.PKG_BXSCITI_GENERAL.GRABAR_LOG_DET ( Cod_int, g_proc_int, 'I', 'Se van  a procesar  ' || t_mf.COUNT || ' registros.', g_res_log );
+
+FOR x in l_cod_intfc.FIRST .. l_cod_intfc.LAST LOOP
+
+ IF (l_t_tran_ant <>l_tipo_tran(x)) and (x <> l_cod_intfc.FIRST) THEN
+        BASEARG.PKG_BXSCITI_GENERAL.GRABAR_LOG_DET ( Cod_int, g_proc_int, 'I', 'Se procesaron  ' || l_contador || ' registros.', g_res_log );
+END IF;
+
+IF l_t_tran_ant <>l_tipo_tran(x) THEN 
+BASEARG.PKG_BXSCITI_GENERAL.GRABAR_LOG_DET ( Cod_int, g_proc_int, 'I', 'Procesando Tipo Trans : ' || l_tipo_tran(x) , g_res_log );
+l_contador :=0;
+END IF;
+
+    l_contador := l_contador + 1 ;
+    l_t_tran_ant :=l_tipo_tran(x) ;
+    
+BEGIN
+
+COMMIT;
+SET TRANSACTION READ WRITE NAME 'DATOS_MAEFUNC';
+SAVEPOINT INICIO;
+            
+
+        CASE l_tipo_tran(x)
+        WHEN 'D' THEN
+              DELETE MAEFUNC_TBL MF 
+                WHERE MF.COD_MF = t_mf(x).COD_MF
+                AND MF.FECHA_EFECTIVA = t_mf(x).FECHA_EFECTIVA
+                AND MF.SEC_EFECTIVA=t_mf(x).SEC_EFECTIVA;
+        
+        WHEN 'U' THEN
+
+              DELETE MAEFUNC_TBL MF 
+                WHERE MF.COD_MF = t_mf(x).COD_MF
+                AND MF.FECHA_EFECTIVA = t_mf(x).FECHA_EFECTIVA
+                AND MF.SEC_EFECTIVA=t_mf(x).SEC_EFECTIVA;
+
+                INSERT INTO MAEFUNC_TBL
+                VALUES t_mf(x);
+                
+        WHEN 'I' THEN
+
+                 INSERT INTO MAEFUNC_TBL
+                VALUES t_mf(x);
+       END CASE;
+ 
+ 
+COMMIT;
+    
+      l_estado_stg(x):= 'F';
+          
+EXCEPTION
+WHEN OTHERS THEN
+ ROLLBACK TO SAVEPOINT INICIO;
+    l_estado_stg(x):= 'E';
+    g_err_descr:='Error procesando  COD_MF  : ' || t_mf(x).COD_MF ||  ' FECHA_EFF : ' ||  t_mf(x).FECHA_EFECTIVA || ' SEC_EFF : ' ||  t_mf(x).SEC_EFECTIVA || ' ACCION : ' || l_tipo_tran(x) || ' ERROR :' || SQLERRM;   
+    BASEARG.PKG_BXSCITI_GENERAL.GRABAR_LOG_DET ( Cod_int, g_proc_int, 'E', g_err_descr, g_res_log );
+    l_hay_error :=TRUE;    
+END;
+   
+END LOOP;
+
+
+FORALL S IN l_cod_intfc.FIRST .. l_cod_intfc.LAST
+UPDATE CB_MAEFUNC_STG S
+SET S.ESTADO_STG = l_estado_stg(S)
+WHERE S.COD_INTFC = l_cod_intfc(S)
+AND S.COD_MF = t_mf(S).COD_MF
+AND S.FECHA_EFECTIVA = t_mf(S).FECHA_EFECTIVA
+AND S.SEC_EFECTIVA = t_mf(S).SEC_EFECTIVA;
+
+COMMIT;
+
+
+BASEARG.PKG_BXSCITI_GENERAL.GRABAR_LOG_DET ( Cod_int, g_proc_int, 'I', 'Se procesaron  ' || l_contador || ' registros.', g_res_log );
+
+IF l_hay_error =FALSE THEN 
+    l_res :='OK';
+ELSE
+    l_res :='ERROR';
+END IF;
+
+EXCEPTION
+WHEN OTHERS THEN
+l_hay_error :=TRUE;
+l_res :='ERROR :' || SQLERRM;
+END;
+
+END; 
+/
