@@ -1,0 +1,228 @@
+CHG0003536604	[AR Buxis - UAT - DB]-[Cosmos ITR] - Patrimonial - Actualización Paquete de BBDD GENERA-CONT
+
+CHG0003804797	[ARBuxis- UAT - DB]-[Cosmos ITR] DBPackage-GENERA-CONT - Arreglo de asignación de sucursales 6612 (2019/10/31)
+CHG0003804798	[ARBuxis- PROD - DB]-[Cosmos ITR] DBPackage-GENERA-CONT - Arreglo de asignación de sucursales 6612 (2019/10/31)
+CTSK0010467526	[DBA-PROD][Buxis] Update package PKG_BXSCITI_DATOS_CONT-2019-10-31 1600
+DESCRIPTION
+	1. Description of the change in layman terms, business and technical view.
+		Change of sucursal data obtaining  - ITRCosmos
+		Cambio de obtención de sucursal en el proceso de generación contable - ITRCosmos
+		Las sucursales se obtendrán del centro de costo asignado en vez de la establecida para el funcionario
+
+	2. Include the Timeline: ( Include the Timeline following the form below for each activity)
+		a. Task number b. Starting date of the Task. c. Starting time of the task (cannot be in the Red Zone) d. Duration of the task (please, use the DD:HH:MM denotation) e. Group in charge of the task  f. Task description
+
+		STARTING DATE			TASK NUMBER 	TITLE								DURATION 		DESCRIPTION
+		2019/11/06	12:00(ARG)	CTSK0009724912	[DBA-PROD][Buxis] Update package 	1h 	- 00:01:00	Changes settings on DB
+		2019/11/06	12:30(ARG)	CTSK0010467480	Post-Implementation Validation 		1h  - 00:01:00	Check results expected (limited access for non Payroll Users)
+
+	3. Describe the impact in case of fail.
+		Rollback/Backout will need to be implemented
+
+	4. In case of dowtime, what services will be impacted or broken down?
+		N/A
+
+	5. The Green Zone Windows and validation of services & equipment are already negotiated with operation and business user? If the answer is "yes", please mention people or group name
+		N/A
+
+	6. Provide the business operational hours
+		Monday to Friday - 12 to 21 (GMT)
+
+
+
+JUSTIFICATION
+	1. Why is this change required?
+		To solve issue for data duplicated
+		Para resolver un error encontrado al repetir registros en la generación
+
+	2. What is the impact on services and businesses if this change is not implemented?
+		End users won't be able to generate the output with current ITR Cosmos format
+		Los usuarios no podrán generar la salida con el formato actual de ITR Cosmos
+
+	3. In case of Expedited or Emergency change, explain why the change can not be planned, include fines, penalties, or likelihood of service disruption if the change is not implemented.
+		N/A
+
+PRE IMPLEMENTATION TEST
+	1. What kind of test were done?
+		It was tested on our UAT server for this webapp 			(http://lacargbaas192:8100/buxis)
+		El cambio fue verificado en el servidor de UAT y en portal	(http://lacargbaas192:8100/buxis)
+
+	2. Does the CR have the approval from testing group?
+		N/A
+
+BACKOUT
+	1. List the detail step by step back out plan
+		An db admin user for PROD server will have to proceed with backout (ICG LA CIS DB L3 ORACLE) 	
+		
+
+	2. How long back out will take if involved
+		2h
+
+	3. Specific contacts that would be needed to back out the change out
+		AA58179 <aa58179@imcla.lac.nsroot.net>					- GFTS LA PA AR Buxis HR
+		db admin user for PROD server (LACARGLXAP020@HR_PROD) 	- ICG LA CIS DB L3 ORACLE
+
+
+POST IMPLEMENTATION VALIDATION
+	1. Provide a brief description of the steps that will be performed to validate the success of this change.
+		Payroll users will check output from "Generación de contabilidad"
+
+	2. At what time and date will the Post Implementation validation be done? (remember the validation must be executed during the change window, if this is not possible explain in detail why not)
+		The same date as change will be implemented
+
+************************************************************************************************************************
+************************************************************************************************************************
+************************************************************************************************************************
+[DBA-UAT][Buxis] Update package PKG_BXSCITI_DATOS_CONT-2019-07-16-11.43
+[DBA-PROD][Buxis] Update package PKG_BXSCITI_DATOS_CONT-2019-10-31 1600
+#### IMPORTAN NOTES #### (MANDATORY)
+*** By submitting this TASK you're accepting the following conditions. ***
+*** Don't delete template details, if do so, task will be rejected and no executed at all ***
+------------------------------------------------------------------------------------------------------------------------
+
+1- Please remember to add into affected CI's the hostname/data server name.
+2- If downtime is required please remember to mark DT=TRUE in affected CI's and in the change too.
+3- Please submit the change before Thursday 12:00PM CST for PROD changes. Unless is a EMER CHG please reach us as soon as possible to coordinate this.
+4- UAT changes must be submitted 24 hours before the window. OR the day before the window starts. (UAT changes outside of US Business our are not supported)
+5- Depending of the amount of changes in the weekend we can reject due a high volume of requests.
+6- Please give us at least 24h to review and accept task (all environments).
+
+Group E-mail: 
+L2 Team: *CTI NAM CTSIS Oracle DBA 		  <dl.cti.nam.ctsis.oracle.dba@imcnam.ssmb.com>
+L3 Team: *CTI LATAM CIS DB Oracle Support <dl.cti.latam.cis.db.oracle.support@imcla.lac.nsroot.net>  
+HOTLINE: (24x7)  +1 908-563-5990 
+
+#### PROVIDE APP NUMBER // CSI ####
+149086 - CTO LA PA AR BUXIS HR
+
+#### START TO OR WAIT FOR GO #### (MANDATORY)
+When should we start: As soon as the window starts
+
+#### INSTRUCTIONS OF THE TASK ####
+
+Please provide instructions and order of the scripts.
+
+Instructions:
+	1. Server Name: 		LACARGLXAP019
+	2. Database Name: 		HRTEST_11G
+	3. Schema(s) Name:		BASEARG
+	4. Location of script:	Attached files:
+		"0. DROP-PKG_BXSCITI_DATOS_CONT-2019-08-21.sql"
+		"1. SPEC-PKG_BXSCITI_DATOS_CONT-2019-08-21.sql"
+		"2. BODY-PKG_BXSCITI_DATOS_CONT-2019-10-31.sql"
+		"3. GRANT-PKG_BXSCITI_DATOS_CONT-2019-08-21.sql"
+
+
+	5.Activities to be performed:
+		5.a) Drop current package (drop instruction also deletes the current assigned grants)
+				run attached file: "0. DROP-PKG_BXSCITI_DATOS_CONT-2019-08-21.sql"
+
+		5.b) Create/replace specification package
+				run attached file: "1. SPEC-PKG_BXSCITI_DATOS_CONT-2019-08-21.sql"
+
+		5.c) Create/replace body package
+				run attached file: "2. BODY-PKG_BXSCITI_DATOS_CONT-2019-10-31.sql"
+
+		5.d) Re-assign permissions for appUser
+				run attached file: "3. GRANT-PKG_BXSCITI_DATOS_CONT-2019-08-21.sql"
+
+
+Note: Update in the task title or change which type of commands (Create,Drop,Alter,Truncate,Rename,INSERT,UPDATE,DELETE,EXECUTE,GRANT,COMMIT,ROLLBACK) are going to be performed on the server
+6. Team contact/DL for go-ahead: 	CTO LA PA AR BUXIS HR
+7. Actual time of deployment: 		30'
+
+
+ETA for the execution of the task: 
+
+
+#### CONTACT DETAILS #### (MANDATORY)
+
+Please provide contact information (SOEID, DL and secondary contact if needed)
+
+	SOEID: 		 			JE95744 <je95744@imcla.lac.nsroot.net>
+	Group Email: 			*CTO  AR GPA Buxis HR <dl.cto.ar.gpa.buxis.hr@imcla.lac.nsroot.net>
+	Primary Escalation: 	*GFTS AR GPA Buxis HR <dl.cto.ar.gpa.buxis.hr@imcla.lac.nsroot.net>
+							AA58179 <aa58179@imcla.lac.nsroot.net>
+	Secondary Escalation:	AS54421 <as54421@imcla.lac.nsroot.net>
+
+
+
+
+************************************************************************************************************************
+************************************************************************************************************************
+************************************************************************************************************************
+	#### IMPORTAN NOTES #### (MANDATORY)
+	*** By submitting this TASK you're accepting the following conditions. ***
+	*** Don't delete template details, if do so, task will be rejected and no executed at all ***
+	------------------------------------------------------------------------------------------------------------------------
+
+	1- Please remember to add into affected CI's the hostname/data server name.
+	2- If downtime is required please remember to mark DT=TRUE in affected CI's and in the change too.
+	3- Please submit the change before Thursday 12:00PM CST for PROD changes. Unless is a EMER CHG please reach us as soon as possible to coordinate this.
+	4- UAT changes must be submitted 24 hours before the window. OR the day before the window starts. (UAT changes outside of US Business our are not supported)
+	5- Depending of the amount of changes in the weekend we can reject due a high volume of requests.
+	6- Please give us at least 24h to review and accept task (all environments).
+
+	Group E-mail: 
+	L2 Team: *CTI NAM CTSIS Oracle DBA 		  <dl.cti.nam.ctsis.oracle.dba@imcnam.ssmb.com>
+	L3 Team: *CTI LATAM CIS DB Oracle Support <dl.cti.latam.cis.db.oracle.support@imcla.lac.nsroot.net>  
+	HOTLINE: (24x7)  +1 908-563-5990 
+
+	#### PROVIDE APP NUMBER // CSI ####
+	149086 - CTO LA PA AR BUXIS HR
+
+	#### START TO OR WAIT FOR GO #### (MANDATORY)
+	When should we start: As soon as the window starts
+
+	#### INSTRUCTIONS OF THE TASK ####
+
+	Please provide instructions and order of the scripts.
+
+	Instructions:
+
+
+	1. Server Name: 		LACARGLXAP020
+	2. Database Name: 		HR_PROD 	- 	PSS3
+	3. Schema(s) Name:		BASEARG
+	4. Location of script:	Attached files:
+		"0. DROP-PKG_BXSCITI_DATOS_CONT-2019-08-21.sql"
+		"1. SPEC-PKG_BXSCITI_DATOS_CONT-2019-08-21.sql"
+		"2. BODY-PKG_BXSCITI_DATOS_CONT-2019-10-31.sql"
+		"3. GRANT-PKG_BXSCITI_DATOS_CONT-2019-08-21.sql"
+		"PROD-1-DBScript_ReciboCodBarras-TableCreation.sql"
+
+
+
+	5.Activities to be performed:
+		5.a) Drop current package (drop instruction also deletes the current assigned grants)
+				run attached file: "0. DROP-PKG_BXSCITI_DATOS_CONT-2019-08-21.sql"
+
+		5.b) Create/replace specification package
+				run attached file: "1. SPEC-PKG_BXSCITI_DATOS_CONT-2019-08-21.sql"
+
+		5.c) Create/replace body package
+				run attached file: "2. BODY-PKG_BXSCITI_DATOS_CONT-2019-10-31.sql"
+
+		5.d) Re-assign permissions for appUser
+				run attached file: "3. GRANT-PKG_BXSCITI_DATOS_CONT-2019-08-21.sql"
+		
+		5.e) Create recibos table
+				run attached file: "PROD-1-DBScript_ReciboCodBarras-TableCreation.sql"
+
+	Note: Update in the task title or change which type of commands (Create,Drop,Alter,Truncate,Rename,INSERT,UPDATE,DELETE,EXECUTE,GRANT,COMMIT,ROLLBACK) are going to be performed on the server
+	6. Team contact/DL for go-ahead: 	CTO LA PA AR BUXIS HR
+	7. Actual time of deployment: 		30'
+
+
+	ETA for the execution of the task: 
+
+
+	#### CONTACT DETAILS #### (MANDATORY)
+
+	Please provide contact information (SOEID, DL and secondary contact if needed)
+
+		SOEID: 		 			JE95744 <je95744@imcla.lac.nsroot.net>
+		Group Email: 			*CTO  AR GPA Buxis HR <dl.cto.ar.gpa.buxis.hr@imcla.lac.nsroot.net>
+		Primary Escalation: 	*GFTS AR GPA Buxis HR <dl.cto.ar.gpa.buxis.hr@imcla.lac.nsroot.net>
+								AA58179 <aa58179@imcla.lac.nsroot.net>
+		Secondary Escalation:	AS54421 <as54421@imcla.lac.nsroot.net>
